@@ -1,6 +1,5 @@
 
 const API_KEY = "1318597a"
-
 let spinner = document.getElementById('spinner');
 
 let toastContainer = document.getElementById('toast-container');
@@ -48,6 +47,8 @@ async function fetchData(title) {
         spinner.style.display = 'none';
     }
 }
+  
+  console.log(fetchData());
   
   
   
@@ -112,14 +113,3 @@ async function fetchData(title) {
   
   
   const modalBoxesElement = document.querySelector("#modal-boxes")
-  
- 
-  
-
-
-  // const a = [1, 2, 3]
-  // console.log(a[2]);
-  // console.log(a.at(0));
-  
-  
-
