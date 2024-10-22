@@ -1,13 +1,53 @@
 
 const API_KEY = "1318597a"
 
+let spinner = document.getElementById('spinner');
+
+let toastContainer = document.getElementById('toast-container');
+
+function showToast(message, isSuccess = true) {
+    const toast = document.createElement('div');
+    toast.className = `toast align-items-center text-white ${isSuccess ? 'bg-success' : 'bg-danger'}`;
+    toast.role = 'alert';
+    toast.innerHTML = `
+        <div class="d-flex">
+            <div class="toast-body">${message}</div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    `;
+    toastContainer.appendChild(toast);
+    
+    
+    let toastInstance = new bootstrap.Toast(toast);
+    toastInstance.show();
+
+    setTimeout(() => {
+        toast.remove();
+    }, 5000);
+}
+
+
 async function fetchData(title) {
-    const response = await fetch(`https://www.omdbapi.com/?i=tt3896198&apikey=${API_KEY}&t="${title}"`)
-    const data = await response.json()
-    return data
-  }
-  
-  console.log(fetchData());
+    try {
+        spinner.style.display = 'block';
+
+        const response = await fetch(`https://www.omdbapi.com/?i=tt3896198&apikey=${API_KEY}&t="${title}"`);
+        const data = await response.json();
+
+        if (data && data.Response === 'True') {
+            showToast(`Фильм "${data.Title}" найден!`, true);
+        } else {
+            showToast(`Фильм "${title}" не найден!`, false);
+        }
+
+        return data;
+    } catch (error) {
+        console.error('Ошибка загрузки данных:', error);
+        showToast('Ошибка загрузки данных!', false);
+    } finally {
+        spinner.style.display = 'none';
+    }
+}
   
   
   
